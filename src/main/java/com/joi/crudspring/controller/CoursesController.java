@@ -16,6 +16,7 @@ import com.joi.crudspring.model.Course;
 import com.joi.crudspring.repository.CourseRepository;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api/courses")
@@ -48,6 +49,19 @@ public class CoursesController {
     public ResponseEntity<Course> findById(@PathVariable("id") Long _id) {
         return courseRepository.findById(_id)
                 .map(record -> ResponseEntity.ok().body(record))
+                .orElse(ResponseEntity.notFound().build());
+
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Course> update(@PathVariable Long id, @RequestBody Course record) {
+        return courseRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.setName(record.getName());
+                    recordFound.setCategory(record.getCategory());
+                    Course updated = courseRepository.save(recordFound);
+                    return ResponseEntity.ok().body(updated);
+                })
                 .orElse(ResponseEntity.notFound().build());
 
     }
