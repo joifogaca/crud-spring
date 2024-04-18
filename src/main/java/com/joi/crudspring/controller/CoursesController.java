@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.joi.crudspring.dto.CourseDTO;
 import com.joi.crudspring.model.Course;
 
 import com.joi.crudspring.service.CourseService;
@@ -35,7 +36,7 @@ public class CoursesController {
     }
 
     @GetMapping
-    public List<Course> list() {
+    public List<CourseDTO> list() {
         return courseService.findAll();
     }
 
@@ -49,21 +50,21 @@ public class CoursesController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Course Create(@RequestBody @Valid Course record) {
+    public CourseDTO Create(@RequestBody @Valid CourseDTO record) {
 
         return courseService.Create(record);
     }
 
     @GetMapping("/{id}")
-    public Course findById(@PathVariable("id") 
+    public CourseDTO findById(@PathVariable("id") 
     @NotNull @Positive Long _id) {
         return courseService.findById(_id);
 
     }
 
     @PutMapping("/{id}")
-    public Course update(@PathVariable Long id,
-            @RequestBody @Valid Course record) {
+    public CourseDTO update(@PathVariable Long id,
+    @NotNull @RequestBody @Valid CourseDTO record) {
         return courseService.update(id, record);
                 }
 
