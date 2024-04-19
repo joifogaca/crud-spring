@@ -2,14 +2,20 @@ package com.joi.crudspring.model;
 
 
 import org.hibernate.annotations.SQLRestriction;
+
 import org.hibernate.annotations.SQLDelete;
 
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.joi.crudspring.enums.Category;
+import com.joi.crudspring.enums.converters.CategoryConverter;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,10 +43,10 @@ public class Course {
     private String name;
 
     @NotNull
-    @Length(max = 10)
+    //@Length(max = 10)
     @Column(length = 10, nullable = false)
-    @Pattern(regexp = "Back-end|Front-end")
-    private String category;
+    @Convert(converter = CategoryConverter.class)
+    private Category category;
 
     @NotNull
     @Length(max = 10)

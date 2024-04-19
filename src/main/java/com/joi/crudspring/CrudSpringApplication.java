@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.joi.crudspring.enums.Category;
 import com.joi.crudspring.model.Course;
 import com.joi.crudspring.repository.CourseRepository;
 
@@ -18,20 +19,20 @@ public class CrudSpringApplication {
 	@Bean
 	CommandLineRunner initDatabase(CourseRepository courseRepository) {
 		return args -> {
-		courseRepository.deleteAll();
+			courseRepository.deleteAll();
 
-			 Course c = new Course();
-			 c.setName("Angular com Spring");
-			 c.setCategory("Front-end");
+			Course c = new Course();
+			c.setName("Angular com Spring");
+			c.setCategory(Category.FRONT_END);
 
-			 courseRepository.save(c);
+			courseRepository.save(c);
 
-			 Course c1 = new Course();
-			 c1.setName("Entity Framework");
-			 c1.setCategory("Back-end");
+			Course c1 = new Course();
+			c1.setName("Entity Framework");
+			c1.setCategory(Category.BACK_END);
 
-			 courseRepository.save(c1);
- 
+			courseRepository.save(c1);
+
 		};
 	}
 }
