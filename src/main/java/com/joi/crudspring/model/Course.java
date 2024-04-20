@@ -1,27 +1,23 @@
 package com.joi.crudspring.model;
 
-
-import org.hibernate.annotations.SQLRestriction;
-
 import org.hibernate.annotations.SQLDelete;
-
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.joi.crudspring.enums.Category;
+import com.joi.crudspring.enums.Status;
 import com.joi.crudspring.enums.converters.CategoryConverter;
+import com.joi.crudspring.enums.converters.StatusConverter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data // Lombok gerar gette e setter
@@ -43,14 +39,15 @@ public class Course {
     private String name;
 
     @NotNull
-    //@Length(max = 10)
+    // @Length(max = 10)
     @Column(length = 10, nullable = false)
     @Convert(converter = CategoryConverter.class)
     private Category category;
 
     @NotNull
-    @Length(max = 10)
+    // @Length(max = 10)
     @Column(length = 10, nullable = false)
-    @Pattern(regexp = "Ativo|Inativo")
-    private String status = "Ativo";
+    // @Pattern(regexp = "Ativo|Inativo")
+    @Convert(converter = StatusConverter.class)
+    private Status status = Status.ACTIVE;
 }
