@@ -15,6 +15,6 @@ import jakarta.validation.constraints.NotNull;
 public record CourseDTO(
         @JsonProperty("_id") Long id,
         @NotNull @NotBlank @Length(min = 3, max = 100) String name,
-        @NotNull @Column(length = 10, nullable = false) String category,
+        @NotNull @NotBlank   String category,
         List<LessonDTO> lessons) {
 }

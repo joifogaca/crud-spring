@@ -44,7 +44,6 @@ public class Course {
     private String name;
 
     @NotNull
-    // @Length(max = 10)
     @Column(length = 10, nullable = false)
     @Convert(converter = CategoryConverter.class)
     private Category category;

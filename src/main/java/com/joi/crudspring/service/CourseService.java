@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.joi.crudspring.dto.CourseDTO;
 import com.joi.crudspring.dto.mapper.CourseMapper;
+import com.joi.crudspring.enums.Status;
 import com.joi.crudspring.exception.RecordNotFoundException;
+import com.joi.crudspring.model.Course;
 import com.joi.crudspring.repository.CourseRepository;
 
 import jakarta.validation.Valid;
@@ -43,9 +45,11 @@ public class CourseService {
     }
 
     public CourseDTO create(@Valid @NotNull CourseDTO record) {
+        Course course = courseMapper.toEntity(record);
+        course.setStatus(Status.ACTIVE);
         return courseMapper.toDTO(
-                courseRepository.save(
-                        courseMapper.toEntity(record)));
+                courseRepository.save(course)
+        );
     }
 
     public CourseDTO update(@NotNull @Positive Long id,
