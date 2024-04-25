@@ -1,8 +1,8 @@
 package com.joi.crudspring.enums;
 
 public enum Category {
-    BACK_END("Back-end"),
-    FRONT_END("Front-end");
+    BACK_END("back-end"),
+    FRONT_END("front-end");
 
     private final String value;
 
