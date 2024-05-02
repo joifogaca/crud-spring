@@ -10,6 +10,9 @@ import com.joi.crudspring.dto.LessonDTO;
 import com.joi.crudspring.enums.Category;
 import com.joi.crudspring.enums.Status;
 import com.joi.crudspring.model.Course;
+import com.joi.crudspring.model.Lesson;
+import com.joi.crudspring.model.Lesson;
+import com.joi.crudspring.model.Lesson;
 
 @Component
 public class CourseMapper {
@@ -39,11 +42,21 @@ public class CourseMapper {
         Course course = new Course();
         if (courseDTO.id() != null) {
             course.setId(courseDTO.id());
-        }
-        ;
+        };
+        
         course.setName(courseDTO.name());
         course.setCategory(convertCategoryValue(courseDTO.category()));
-        //course.setStatus(Status.ATIVO);
+        
+        List<Lesson> lessons = courseDTO.lessons().stream().map(LessonDTO -> {
+        var lesson = new Lesson();
+        lesson.setId(LessonDTO.id());
+        lesson.setName(LessonDTO.name());
+        lesson.setYoutubeUrl(LessonDTO.youtubeUrl());
+        lesson.setCourse(course);
+        return lesson;
+
+        }).collect(Collectors.toList());
+        course.setLessons(lessons);
         return course;
     }
 
