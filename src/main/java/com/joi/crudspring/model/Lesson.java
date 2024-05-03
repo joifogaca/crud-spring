@@ -15,10 +15,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+
 
 @Entity
-@Data
 public class Lesson {
 
     @Id
@@ -26,16 +25,53 @@ public class Lesson {
     @JsonProperty("_id")
     private Long id;
 
-    // @NotNull
-    // @NotBlank
-    //@Length(min = 3, max = 100)
+    @NotNull
+    @NotBlank
+    @Length(min = 3, max = 100)
     @Column(length = 100, nullable = false)
     private String name;
 
    
+    @NotNull
+    @NotBlank
+    @Length(min = 10, max = 11)
     @Column(length = 11, nullable = false)
     private String youtubeUrl;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+   
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getYoutubeUrl() {
+        return youtubeUrl;
+    }
+
+    public void setYoutubeUrl(String youtubeUrl) {
+        this.youtubeUrl = youtubeUrl;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course_id", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

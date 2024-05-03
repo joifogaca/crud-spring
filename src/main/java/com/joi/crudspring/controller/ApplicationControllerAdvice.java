@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.joi.crudspring.exception.RecordNotFoundException;
 
@@ -29,16 +30,31 @@ public class ApplicationControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public FieldError[] validationError(MethodArgumentNotValidException ex) {
-        BindingResult result = ex.getBindingResult();
-        final List<FieldError> fieldErrors = result.getFieldErrors();
-        return fieldErrors.toArray(new FieldError[fieldErrors.size()]);
+    public String validationError(MethodArgumentNotValidException ex) {
+
+        return ex.getBindingResult().getFieldErrors().stream()
+        .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+        .reduce("", (acc, error) -> acc + error + "\n");
 }
 
 @ExceptionHandler(ConstraintViolationException.class)
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public String handleConstraintViolationException(ConstraintViolationException e) {
-    return "not valid due to validation error: " + e.getMessage();
+public String handleConstraintViolationException(ConstraintViolationException ex) {
+    return ex.getConstraintViolations().stream()
+    .map(cv -> cv.getPropertyPath() + ": " + cv.getMessage())
+    .reduce("", (acc, error) -> acc + error + "\n");
+}
+
+
+@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public String handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+    if(ex != null && ex.getRequiredType() != null){
+        String type = ex.getRequiredType().getSimpleName();
+        return ex.getName() + " should be of type " + type;
+    }
+    return "Argumento inválido: " + ex.getMessage();
+    
 }
 
 }
