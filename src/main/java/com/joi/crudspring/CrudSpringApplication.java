@@ -22,26 +22,30 @@ public class CrudSpringApplication {
 		return args -> {
 			courseRepository.deleteAll();
 
-			Course c = new Course();
-			c.setName("Angular com Spring");
-			c.setCategory(Category.FRONT_END);
-			Lesson lesson = new Lesson();
-			lesson.setName("Primeiro Modulo");
-			lesson.setYoutubeUrl("12345678910");
-			lesson.setCourse(c);
-			c.getLessons().add(lesson);
-			courseRepository.save(c);
+			for(int i =0; i<10; i++){
+				Course c = new Course();
+				c.setName("Angular com Spring" + i);
+				c.setCategory(Category.FRONT_END);
+				Lesson lesson = new Lesson();
+				lesson.setName("Primeiro Modulo");
+				lesson.setYoutubeUrl("12345678910");
+				lesson.setCourse(c);
+				c.getLessons().add(lesson);
+				courseRepository.save(c);
+				
+		
+				Course c1 = new Course();
+				c1.setName("Ngx Angular" + i);
+				c1.setCategory(Category.BACK_END);
+				Lesson lesson1 = new Lesson();
+				lesson1.setName("Primeiro Modulo Back");
+				lesson1.setYoutubeUrl("12345678910");
+				lesson1.setCourse(c1);
+				c1.getLessons().add(lesson1);
+				courseRepository.save(c1);
+			}
+
 			
-	
-			Course c1 = new Course();
-			c1.setName("Entity Framework");
-			c1.setCategory(Category.BACK_END);
-			Lesson lesson1 = new Lesson();
-			lesson1.setName("Primeiro Modulo Back");
-			lesson1.setYoutubeUrl("12345678910");
-			lesson1.setCourse(c1);
-			c1.getLessons().add(lesson1);
-			courseRepository.save(c1);
 		};
 	}
 }
